@@ -292,23 +292,20 @@ def alternate(*ps):
 
     return f
 
-def sequence2(p1, p2):
-    def f(s):
-        idxs1 = p1(s)
-        res = set()
-        s1 = copy(s)
-        for idx in idxs1:
-            s1["index"] = idx
-            idxs2 = p2(s1)
-            res = res.union(idxs2)
-        return res
-
-    return f
-
 def sequence(*ps):
-    f = parse_empty
-    for p in ps:
-        f = sequence2(f, p)
+    def f(s):
+        s1 = copy(s)
+        idxs = set([s1["index"]])
+        for p in ps:
+            new_idxs = set()
+            for idx in idxs:
+                s1["index"] = idx
+                curr_idxs = p(s1)
+                new_idxs = new_idxs.union(curr_idxs)
+            idxs = new_idxs
+            if len(idxs) == 0:
+                break
+        return idxs
 
     return f
 
