@@ -227,10 +227,22 @@ def parse_sign(s):
 def parse_whitespace(s):
     return alternate(
         parse_empty,
-        parse_char(" "),
-        parse_char("\n"),
-        parse_char("\r"),
-        parse_char("\t"),
+        sequence(
+            parse_char(" "),
+            parse_whitespace,
+        ),
+        sequence(
+            parse_char("\n"),
+            parse_whitespace,
+        ),
+        sequence(
+            parse_char("\r"),
+            parse_whitespace,
+        ),
+        sequence(
+            parse_char("\t"),
+            parse_whitespace,
+        ),
     )(s)
 
 def parse_true(s):

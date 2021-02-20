@@ -1,7 +1,11 @@
 load("lib.star", "parse_json")
 
 def main():
-    json_str = """{"foo":"bar"}"""
+    json_str = """
+    {   
+        "foo" :"bar",
+        "yo":42
+    }"""
     print(
         parse_json(
             {
